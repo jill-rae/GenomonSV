@@ -66,7 +66,7 @@ def get_seq(reference, chr, start, end):
     seq = seq.replace('>', '')
     seq = seq.replace(chr + ":" + str(start) + "-" + str(end), '')
 
-    if re.search(r'[^ACGTNacgtn]', seq) is not None:
+    if re.search(r'[^ACGTUWSMKRYBDHVNacgtuwsmkrybdhvn]', seq) is not None:
         print("The return value in get_seq function includes non-nucleotide characters:", file=sys.stderr)
         print(seq, file=sys.stderr)
         sys.exit(1)
