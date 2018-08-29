@@ -3,11 +3,11 @@
 
 import sys, argparse, subprocess, os
 # import config 
-import utils
-import parseFunction
-import filterFunction
-import mergeFunction
-import annotationFunction
+from . import utils
+from . import parseFunction
+from . import filterFunction
+from . import mergeFunction
+from . import annotationFunction
 
 def genomonSV_parse(args):
 
@@ -212,7 +212,7 @@ def genomonSV_merge(args):
     utils.make_directory(os.path.dirname(args.merge_output_file))
     
     if os.path.exists(args.merge_output_file + ".temp"):
-        print >> sys.stderr, "Remove existing intermediate file " + args.merge_output_file + ".temp" 
+        print("Remove existing intermediate file " + args.merge_output_file + ".temp", file=sys.stderr) 
         os.remove(args.merge_output_file + ".temp")
 
     with open(args.control_info_file, 'r') as hin:
