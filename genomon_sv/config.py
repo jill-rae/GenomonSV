@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import yaml, os
+import yaml, os, sys
 
 def sample_yaml_config_parse(filePath, method):
 
@@ -76,7 +76,7 @@ def param_yaml_contig_parse(filePath, method):
         with open(filePath, 'r') as fIN:
             paramConf = yaml.load(fIN)
     except yaml.YAMLError as exc:
-        print("Error in sample information file:", exc)
+        print(f"Error in sample information file: {exc}")
 
     # check whether necessary information is provided in right way
     #
@@ -91,13 +91,13 @@ def control_yaml_config_parse(filePath):
         with open(filePath, 'r') as fIN:
             controlConf = yaml.load(fIN)
     except yaml.YAMLError as exc:
-        print("Error in sample information file:", exc)
+        print(f"Error in sample information file: {exc}")
 
     for label in controlConf:
         
         # check the exisitence of files
         if os.path.exists(controlConf[label]) == False:
-            sys.exit(controlConf[label] + " in " + filePath + "does not exists!")
+            sys.exit(f"{controlConf[label]} in {filePath} does not exists!")
 
     return controlConf
 

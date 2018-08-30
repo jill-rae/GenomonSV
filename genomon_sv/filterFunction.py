@@ -14,9 +14,9 @@ from scipy import stats
 
 def genomon_sv_filt_main(output_prefix, args, thread_str = ""):
 
-    utils.processingMessage("Filtering by # of breakpoint containing read pairs and variant sizes" + thread_str)
-    filterJuncNumAndSize(output_prefix + ".junction.clustered.bedpe.gz",
-                         output_prefix + ".junction.clustered.filt1.bedpe",
+    utils.processingMessage(f"Filtering by # of breakpoint containing read pairs and variant sizes {thread_str}")
+    filterJuncNumAndSize(f"{output_prefix}.junction.clustered.bedpe.gz",
+                         f"{output_prefix}.junction.clustered.filt1.bedpe",
                          args.min_junc_num, args.min_sv_size, args.min_inversion_size)
 
     utils.processingMessage("Filtering by nonmatched control panel" + thread_str)
@@ -62,6 +62,10 @@ def genomon_sv_filt_main(output_prefix, args, thread_str = ""):
                                      args.genome_id, args.grc)
 
     if args.debug == False:
+        for i in range(1, 8):
+            os.remove(f'{output_prefix}.junction.clustered.filt{i}.bedpe')
+
+
         subprocess.call(["rm", output_prefix + ".junction.clustered.filt1.bedpe"])
         subprocess.call(["rm", output_prefix + ".junction.clustered.filt2.bedpe"])
         subprocess.call(["rm", output_prefix + ".junction.clustered.filt3.bedpe"])

@@ -26,7 +26,7 @@ def extractSVReadPairs(bamFilePath, outputFilePath, juncChr1, juncPos1, juncDir1
     if bamfile.count(juncChr1, int(juncPos1) - 1, int(juncPos1) + 1) >= max_depth: depthFlag = 1
     if bamfile.count(juncChr2, int(juncPos2) - 1, int(juncPos2) + 1) >= max_depth: depthFlag = 1
     if depthFlag == 1:
-        print("sequence depth exceeds the threshould for: " + ','.join([juncChr1, juncPos1, juncDir1, juncChr2, juncPos2, juncDir2]), file=sys.stderr) 
+        print(f"sequence depth exceeds the threshould for: {','.join([juncChr1, juncPos1, juncDir1, juncChr2, juncPos2, juncDir2])}", file=sys.stderr)
         return 1 
 
     hOUT = open(outputFilePath, 'w')
@@ -218,7 +218,7 @@ def getRefAltForSV(outputFilePath, juncChr1, juncPos1, juncDir1, juncChr2, juncP
         seq = seq.replace('>', '')
         seq = seq.replace(juncChr1 + ":" + str(int(juncPos1) - validate_sequence_length) + "-" + str(int(juncPos2) + validate_sequence_length), '')
         """
-        print('>' + ','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2]) + "_ref", file=hOUT)
+        print(f">{','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2])}_ref", file=hOUT)
         print(seq, file=hOUT)
 
         # for mid-range deletion
@@ -245,7 +245,7 @@ def getRefAltForSV(outputFilePath, juncChr1, juncPos1, juncDir1, juncChr2, juncP
             seq = seq.replace(juncChr2 + ":" + str(juncPos2) + "-" + str(int(juncPos2) + validate_sequence_length), '')
             """
 
-            print('>' + ','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2]) + "_alt", file=hOUT)
+            print(f">{','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2])}_alt", file=hOUT)
             print(seq, file=hOUT)
 
         # for mid-range tandem duplication
@@ -272,7 +272,7 @@ def getRefAltForSV(outputFilePath, juncChr1, juncPos1, juncDir1, juncChr2, juncP
             seq = seq.replace(juncChr1 + ":" + str(juncPos1) + "-" + str(int(juncPos1) + validate_sequence_length), '')
             """
 
-            print('>' + ','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2]) + "_alt", file=hOUT)
+            print(f">{','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2])}_alt", file=hOUT)
             print(seq, file=hOUT)
             
 
@@ -289,7 +289,7 @@ def getRefAltForSV(outputFilePath, juncChr1, juncPos1, juncDir1, juncChr2, juncP
         seq = seq.replace(juncChr1 + ":" + str(int(juncPos1) - validate_sequence_length) + "-" + str(int(juncPos1) + validate_sequence_length), '')
         """
 
-        print('>' + ','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2]) + "_ref1", file=hOUT)
+        print(f">{','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2])}_ref1", file=hOUT)
         print(seq, file=hOUT)
 
         seq = utils.get_seq(reference_genome, juncChr2, int(juncPos2) - validate_sequence_length, int(juncPos2) + validate_sequence_length)
@@ -302,7 +302,7 @@ def getRefAltForSV(outputFilePath, juncChr1, juncPos1, juncDir1, juncChr2, juncP
         seq = seq.replace(juncChr2 + ":" + str(int(juncPos2) - validate_sequence_length) + "-" + str(int(juncPos2) + validate_sequence_length), '')
         """
 
-        print('>' + ','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2]) + "_ref2", file=hOUT)
+        print(f">{','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2])}_ref2", file=hOUT)
         print(seq, file=hOUT)
 
         seq = ""
@@ -354,7 +354,7 @@ def getRefAltForSV(outputFilePath, juncChr1, juncPos1, juncDir1, juncChr2, juncP
 
         seq = seq + tseq
 
-        print('>' + ','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2]) + "_alt", file=hOUT)
+        print(f">{','.join([juncChr1, str(juncPos1), juncDir1, juncChr2, str(juncPos2), juncDir2])}_alt", file=hOUT)
         print(seq, file=hOUT)
 
     

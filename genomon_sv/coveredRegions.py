@@ -66,5 +66,5 @@ def regionMerge(region1, region2):
     if chr1 != chr2 or end1 < start2 or end2 < start1:
         return '' 
         
-    return chr1 + ":" + str(min(start1, start2)) + "-" + str(max(end1, end2))
+    return f"{chr1}:{str(min(start1, start2))}-{str(max(end1, end2))}"
 

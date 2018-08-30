@@ -104,7 +104,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
             juncChr_current = chr_current
             juncPos_current = pos_current + alignmentSize_current - 1
             juncDir_current = "+"
-            coverRegion_current = chr_current + ":" + str(pos_current) + "-" + str(juncPos_current)
+            coverRegion_current = f"{chr_current}:{str(pos_current)}-{str(juncPos_current)}"
             juncChr_SA = chr_SA
 
             # get the expected clipped size in the supplementary read and the side of the clipping
@@ -128,7 +128,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
                     juncDir_SA = "+"
                     juncPos_SA = pos_SA + alignmentSize_SA - 1
                     if clipLen_SA < expected_clipLen_SA: juncPos_SA = juncPos_SA - (expected_clipLen_SA - clipLen_SA) 
-                    coverRegion_SA = chr_SA + ":" + str(pos_SA) + "-" + str(juncPos_SA)
+                    coverRegion_SA = f"{chr_SA}:{str(pos_SA)}-{str(juncPos_SA)}"
                     juncType = 1
                     validFlag = 1
 
@@ -137,7 +137,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
                     juncDir_SA = "-"
                     juncPos_SA = pos_SA
                     if clipLen_SA < expected_clipLen_SA: juncPos_SA = juncPos_SA + (expected_clipLen_SA - clipLen_SA)
-                    coverRegion_SA = chr_SA + ":" + str(juncPos_SA) + "-" + str(juncPos_SA + alignmentSize_SA - 1)
+                    coverRegion_SA = f"{chr_SA}:{str(juncPos_SA)}-{str(juncPos_SA + alignmentSize_SA - 1)}"
                     juncType = 1
                     validFlag = 1
 
@@ -149,7 +149,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
                     juncDir_SA = "+"
                     juncPos_SA = pos_SA + alignmentSize_SA - 1
                     if clipLen_SA < expected_clipLen_SA: juncPos_SA = juncPos_SA - (expected_clipLen_SA - clipLen_SA)
-                    coverRegion_SA = chr_SA + ":" + str(pos_SA) + "-" + str(juncPos_SA) 
+                    coverRegion_SA = f"{chr_SA}:{str(pos_SA)}-{str(juncPos_SA)}"
                     juncType = 2 
                     validFlag = 1
 
@@ -158,7 +158,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
                     juncDir_SA = "-"
                     juncPos_SA = pos_SA
                     if clipLen_SA < expected_clipLen_SA: juncPos_SA = juncPos_SA + (expected_clipLen_SA - clipLen_SA)
-                    coverRegion_SA = chr_SA + ":" + str(juncPos_SA) + "-" + str(juncPos_SA + alignmentSize_SA - 1)
+                    coverRegion_SA = f"{chr_SA}:{str(juncPos_SA)}-{str(juncPos_SA + alignmentSize_SA - 1)}"
                     juncType = 2
                     validFlag = 1
 
@@ -175,13 +175,13 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
 
                 # reorder by the chromosome position and print
                 if juncChr_current < juncChr_SA or juncChr_current == juncChr_SA and juncPos_current <= juncPos_SA:
-                    print('\t'.join([juncChr_current, str(juncPos_current - 1), str(juncPos_current), juncChr_SA, str(juncPos_SA - 1), str(juncPos_SA), \
-                                     read.qname + ("/1" if flags[6] == "1" else "/2"), juncSurplus, juncDir_current, juncDir_SA, \
-                                     str(read.mapq), coverRegion_current + "," + coverRegion_SA, chr_pair + ":" + str(pos_pair), str(juncType), "1"]), file=hOUT)
+                    print('\t'.join([juncChr_current, str(juncPos_current - 1), str(juncPos_current), juncChr_SA, str(juncPos_SA - 1), str(juncPos_SA),
+                                     f"{read.qname}{('/1' if flags[6] == '1' else '/2')}", juncSurplus, juncDir_current, juncDir_SA,
+                                     str(read.mapq), f"{coverRegion_current},{coverRegion_SA}", f"{chr_pair}:{str(pos_pair)}", str(juncType), "1"]), file=hOUT)
                 else: 
-                    print('\t'.join([juncChr_SA, str(juncPos_SA - 1), str(juncPos_SA), juncChr_current, str(juncPos_current - 1), str(juncPos_current), \
-                                     read.qname + ("/1" if flags[6] == "1" else "/2"), juncSurplus, juncDir_SA, juncDir_current, \
-                                     str(read.mapq), coverRegion_current + "," + coverRegion_SA, chr_pair + ":" + str(pos_pair), str(juncType), "2"]), file=hOUT)
+                    print('\t'.join([juncChr_SA, str(juncPos_SA - 1), str(juncPos_SA), juncChr_current, str(juncPos_current - 1), str(juncPos_current),
+                                     f"{read.qname}{('/1' if flags[6] == '1' else '/2')}", juncSurplus, juncDir_SA, juncDir_current,
+                                     str(read.mapq), f"{coverRegion_current},{coverRegion_SA}", f"{chr_pair}:{str(pos_pair)}", str(juncType), "2"]), file=hOUT)
 
 
         if left_clipping >= min_major_clip_size:
@@ -193,7 +193,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
             juncChr_current = chr_current
             juncPos_current = pos_current
             juncDir_current = "-"
-            coverRegion_current = chr_current + ":" + str(pos_current) + "-" + str(pos_current + alignmentSize_current - 1)
+            coverRegion_current = f"{chr_current}:{str(pos_current)}-{str(pos_current + alignmentSize_current - 1)}"
             juncChr_SA = chr_SA
 
             expected_clipLen_SA = readLength_current - clipLen_current
@@ -215,7 +215,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
                     juncDir_SA = "+"
                     juncPos_SA = pos_SA + alignmentSize_SA - 1
                     if clipLen_SA < expected_clipLen_SA: juncPos_SA = juncPos_SA - (expected_clipLen_SA - clipLen_SA)
-                    coverRegion_SA = chr_SA + ":" + str(pos_SA) + "-" + str(juncPos_SA)
+                    coverRegion_SA = f"{chr_SA}:{str(pos_SA)}-{str(juncPos_SA)}"
                     juncType = 1
                     validFlag = 1
 
@@ -224,7 +224,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
                     juncDir_SA = "-"
                     juncPos_SA = pos_SA
                     if clipLen_SA < expected_clipLen_SA: juncPos_SA = juncPos_SA + (expected_clipLen_SA - clipLen_SA)
-                    coverRegion_SA = chr_SA + ":" + str(juncPos_SA) + "-" + str(juncPos_SA + alignmentSize_SA - 1)
+                    coverRegion_SA = f"{chr_SA}:{str(juncPos_SA)}-{str(juncPos_SA + alignmentSize_SA - 1)}"
                     juncType = 1
                     validFlag = 1
 
@@ -236,7 +236,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
                     juncDir_SA = "+"
                     juncPos_SA = pos_SA + alignmentSize_SA - 1
                     if clipLen_SA < expected_clipLen_SA: juncPos_SA = juncPos_SA - (expected_clipLen_SA - clipLen_SA)
-                    coverRegion_SA = chr_SA + ":" + str(pos_SA) + "-" + str(juncPos_SA)
+                    coverRegion_SA = f"{chr_SA}:{str(pos_SA)}-{str(juncPos_SA)}"
                     juncType = 2
                     validFlag = 1
 
@@ -245,7 +245,7 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
                     juncDir_SA = "-"
                     juncPos_SA = pos_SA
                     if clipLen_SA < expected_clipLen_SA: juncPos_SA = juncPos_SA + (expected_clipLen_SA - clipLen_SA)
-                    coverRegion_SA = chr_SA + ":" + str(juncPos_SA) + "-" + str(juncPos_SA + alignmentSize_SA - 1)
+                    coverRegion_SA = f"{chr_SA}:{str(juncPos_SA)}-{str(juncPos_SA + alignmentSize_SA - 1)}"
                     juncType = 2
                     validFlag = 1
 
@@ -263,13 +263,13 @@ def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_in
 
                 # reorder by the chromosome position and print
                 if juncChr_current < juncChr_SA or juncChr_current == juncChr_SA and juncPos_current <= juncPos_SA: 
-                    print('\t'.join([juncChr_current, str(juncPos_current - 1), str(juncPos_current), juncChr_SA, str(juncPos_SA - 1), str(juncPos_SA), \
-                                     read.qname + ("/1" if flags[6] == "1" else "/2"), juncSurplus, juncDir_current, juncDir_SA, \
-                                     str(read.mapq), coverRegion_current + "," + coverRegion_SA, chr_pair + ":" + str(pos_pair), str(juncType), "1"]), file=hOUT)
+                    print('\t'.join([juncChr_current, str(juncPos_current - 1), str(juncPos_current), juncChr_SA, str(juncPos_SA - 1), str(juncPos_SA),
+                                     f"{read.qname}{('/1' if flags[6] == '1' else '/2')}", juncSurplus, juncDir_current, juncDir_SA,
+                                     str(read.mapq), f"{coverRegion_current},{coverRegion_SA}", f"{chr_pair}:{str(pos_pair)}", str(juncType), "1"]), file=hOUT)
                 else:                
-                    print('\t'.join([juncChr_SA, str(juncPos_SA - 1), str(juncPos_SA), juncChr_current, str(juncPos_current - 1), str(juncPos_current), \
-                                     read.qname + ("/1" if flags[6] == "1" else "/2"), juncSurplus, juncDir_SA, juncDir_current, \
-                                     str(read.mapq), coverRegion_current + "," + coverRegion_SA, chr_pair + ":" + str(pos_pair), str(juncType), "2"]), file=hOUT)
+                    print('\t'.join([juncChr_SA, str(juncPos_SA - 1), str(juncPos_SA), juncChr_current, str(juncPos_current - 1), str(juncPos_current),
+                                     f"{read.qname}{('/1' if flags[6] == '1' else '/2')}", juncSurplus, juncDir_SA, juncDir_current,
+                                     str(read.mapq), f"{coverRegion_current},{coverRegion_SA}", f"{chr_pair}:{str(pos_pair)}", str(juncType), "2"]), file=hOUT)
 
     bamfile.close()
     hOUT.close()
@@ -284,7 +284,7 @@ def getPairStartPos(inputFilePath, outputFilePath):
     """
 
     hIN = open(inputFilePath, 'r')
-    hOUT = open(outputFilePath + ".tmp", 'w')
+    hOUT = open(f"{outputFilePath}.tmp", 'w')
     num = 1
 
     reChrPos = re.compile('^([^ \t\n\r\f\v,]+):(\d+)')
@@ -306,11 +306,11 @@ def getPairStartPos(inputFilePath, outputFilePath):
 
         # change the pair read num
         if ID[-1:] == "1":
-            ID = ID[:-1] + "2"
+            ID = f"{ID[:-1]}2"
         else:
-            ID = ID[:-1] + "1"
+            ID = f"{ID[:-1]}1"
 
-        print(chr + '\t' + str(int(pos) - 1) + '\t' + pos + '\t' + ID + '\t' + str(num), file=hOUT)
+        print('\t'.join([chr, str(int(pos) - 1), pos, ID, str(num)]), file=hOUT)
 
         num = num + 1
 
@@ -319,14 +319,13 @@ def getPairStartPos(inputFilePath, outputFilePath):
 
 
     hOUT = open(outputFilePath, 'w')
-    subprocess.call(["sort", "-k1,1", "-k3,3n", outputFilePath + ".tmp"], stdout = hOUT)
+    subprocess.call(["sort", "-k1,1", "-k3,3n", f"{outputFilePath}.tmp"], stdout = hOUT)
     hOUT.close()
 
 
     ####################
     # delete intermediate file
-    subprocess.call(["rm", outputFilePath + '.tmp'])
-
+    subprocess.call(["rm", f"{outputFilePath}.tmp"])
 
 
 def getPairCoverRegionFromBam(inputBam, outputFilePath, inputTabixFile):
@@ -337,7 +336,7 @@ def getPairCoverRegionFromBam(inputBam, outputFilePath, inputTabixFile):
     ####################
     bamfile = pysam.Samfile(inputBam, "rb")
     tabixfile = pysam.TabixFile(inputTabixFile)
-    hOUT = open(outputFilePath + ".tmp", "w")
+    hOUT = open(f"{outputFilePath}.tmp", "w")
 
     ID2info = {}
     tempChr = ""
@@ -376,11 +375,11 @@ def getPairCoverRegionFromBam(inputBam, outputFilePath, inputTabixFile):
         # skip one of the pair is unmapped
         if flags[2] == "1" or flags[3] == "1": continue
      
-        seqID = (read.qname + "/1" if  flags[6] == "1" else read.qname + "/2")
+        seqID = (f"{read.qname}/1" if flags[6] == "1" else f"{read.qname}/2")
 
      
         if seqID in ID2info:
-            print(ID2info[seqID] + "\t" + bamfile.getrname(read.tid) + ":" + str(read.pos + 1) + "-" + str(read.aend) + "\t" + str(read.mapq), file=hOUT)
+            print(f"{ID2info[seqID]}\t{bamfile.getrname(read.tid)}:{str(read.pos + 1)}-{str(read.aend)}\t{str(read.mapq)}", file=hOUT)
 
 
     if tabixErrorMsg != "":
@@ -392,13 +391,13 @@ def getPairCoverRegionFromBam(inputBam, outputFilePath, inputTabixFile):
 
     ####################
     hOUT = open(outputFilePath, 'w')
-    subprocess.call(["sort", "-k5n", outputFilePath + ".tmp"], stdout = hOUT)
+    subprocess.call(["sort", "-k5n", f"{outputFilePath}.tmp"], stdout = hOUT)
     hOUT.close()
     ####################
 
 
     ####################
-    subprocess.call(["rm", outputFilePath + ".tmp"])
+    subprocess.call(["rm", f"{outputFilePath}.tmp"])
 
 
 
@@ -414,7 +413,7 @@ def addPairCoverRegionFromBam(inputFilePath, outputFilePath, pairCoverRegionInfo
 
     line1 = hOriginalFile.readline().rstrip('\n')
     # if no line in the input file
-    if line1  == '':
+    if line1 == '':
         hOriginalFile.close()
         hPairInfoFile.close()
         hOUT.close()
@@ -440,7 +439,7 @@ def addPairCoverRegionFromBam(inputFilePath, outputFilePath, pairCoverRegionInfo
         while ID1 != ID2:
 
             line1 = hOriginalFile.readline()
-            if line1  == '':
+            if line1 == '':
                 endFlag = 1
                 break
 
@@ -451,16 +450,15 @@ def addPairCoverRegionFromBam(inputFilePath, outputFilePath, pairCoverRegionInfo
             tempID1 = ID1
 
             if ID1 != ID2:
-                print("No pair information for %s" % ID1, file=sys.stderr)
+                print(f"No pair information for {ID1}", file=sys.stderr)
 
         if endFlag == 1: break
  
-        print('\t'.join(F1[0:12]) + '\t' + F2[6] + '\t' + F2[5] + '\t' + F1[13] + '\t' + F1[14], file=hOUT)
+        print('\t'.join(['\t'.join(F1[0:12]), F2[6], F2[5], F1[13], F1[14]]), file=hOUT)
 
     hOriginalFile.close()
     hPairInfoFile.close()
     hOUT.close()
-
 
 
 def clusterJunction(inputFilePath, outputFilePath, check_margin_size, maximum_unique_pairs):
@@ -502,10 +500,9 @@ def clusterJunction(inputFilePath, outputFilePath, check_margin_size, maximum_un
                 btstart2 = str(int(btend2) - 1)
 
 
-                print('\t'.join([btchr1, btstart1, btend1, btchr2, btstart2, btend2, \
-                                 tids, btinseq, btdir1, btdir2, tmqs1, talns1, \
-                                 tmqs2, talns2, tpinds, tcinds]) + '\t' +  \
-                      mergedJunction[key], file=hOUT)
+                print('\t'.join([btchr1, btstart1, btend1, btchr2, btstart2, btend2,
+                                 tids, btinseq, btdir1, btdir2, tmqs1, talns1,
+                                 tmqs2, talns2, tpinds, tcinds, mergedJunction[key]]), file=hOUT)
 
                 # add to the deletion list (later the key will removed from the dictionaries)
                 delList.append(key)
@@ -531,14 +528,14 @@ def clusterJunction(inputFilePath, outputFilePath, check_margin_size, maximum_un
                     if flag == 1:
                 
                         match = 1
-                        newIds = tids + ';' + F[6]
-                        newInseqs = tinseqs + ';' + F[7]
-                        newMqs1 = tmqs1 + ';' + F[10]
-                        newAlns1 = talns1 + ';' + F[11]
-                        newMqs2 = tmqs2 + ';' + F[12]
-                        newAlns2 = talns2 + ';' + F[13]
-                        newPinds = tpinds + ';' + F[14]
-                        newCinds = tcinds + ';' + F[15]
+                        newIds = f"{tids};{F[6]}"
+                        newInseqs = f"{tinseqs};{F[7]}"
+                        newMqs1 = f"{tmqs1};{F[10]}"
+                        newAlns1 = f"{talns1};{F[11]}"
+                        newMqs2 = f"{tmqs2};{F[12]}"
+                        newAlns2 = f"{talns2};{F[13]}"
+                        newPinds = f"{tpinds};{F[14]}"
+                        newCinds = f"{tcinds};{F[15]}"
 
 
                         mergedBedpeInfo[key] = '\t'.join([newIds, newInseqs, newMqs1, newAlns1, newMqs2, newAlns2, newPinds, newCinds])
@@ -558,7 +555,7 @@ def clusterJunction(inputFilePath, outputFilePath, check_margin_size, maximum_un
         # if the current line in the input file does not match any of the pooled keys
         if match == 0:
             newKey = '\t'.join([F[0], F[1], F[2], F[3], F[4], F[5], F[8], F[9], str(len(F[7]))])
-            mergedBedpeInfo[newKey] = F[6] + '\t' + F[7] + '\t' + '\t'.join(F[10:16])
+            mergedBedpeInfo[newKey] = '\t'.join([F[6], F[7], '\t'.join(F[10:16])])
 
             # check whether the inserted sequence should be reverse-complemented
             tinseq = F[7] 
@@ -569,8 +566,8 @@ def clusterJunction(inputFilePath, outputFilePath, check_margin_size, maximum_un
             mergedJunction[newKey] = ','.join([F[0], F[2], F[8], F[3], F[5], F[9], tinseq])
 
         if len(mergedJunction) > maximum_unique_pairs:
-            print("Exceeded maximum number of unique junction pairs at %s:%s-%s" % (F[0], F[1], F[2]), file=sys.stderr)
-            print("Skipp %s:%s-%s" % (F[0], F[1], str(int(F[2]) + check_margin_size)), file=sys.stderr)
+            print(f"Exceeded maximum number of unique junction pairs at {F[0]}:{F[1]}-{F[2]}", file=sys.stderr)
+            print(f"Skipp {F[0]}:{F[1]}-str(int(F[2]) + check_margin_size))", file=sys.stderr)
             mergedJunction = {}
             mergedBedpeInfo = {}
             skip_pos = int(F[1]) + check_margin_size
@@ -590,10 +587,10 @@ def clusterJunction(inputFilePath, outputFilePath, check_margin_size, maximum_un
         btstart1 = str(int(btend1) - 1)
         btstart2 = str(int(btend2) - 1)
 
-        print('\t'.join([btchr1, btstart1, btend1, btchr2, btstart2, btend2, \
-                         tids, btinseq, btdir1, btdir2, tmqs1, talns1, \
-                         tmqs2, talns2, tpinds, tcinds]) + '\t' +  \
-              mergedJunction[key], file=hOUT)
+        print('\t'.join([btchr1, btstart1, btend1, btchr2, btstart2, btend2,
+                         tids, btinseq, btdir1, btdir2, tmqs1, talns1,
+                         tmqs2, talns2, tpinds, tcinds, mergedJunction[key]]),
+              file=hOUT)
 
     hOUT.close()
 
@@ -654,21 +651,19 @@ def parseImproperFromBam(inputBam, outputFilePath, abnormal_insert_size, min_map
 
 
         if abnormal_pair == 1:
-            seqname = (read.qname + "/1" if read.is_read1 else read.qname + "/2")  
+            seqname = (f"{read.qname}/1" if read.is_read1 else f"{read.qname}/2")
             direction = ("-" if read.is_reverse else "+")
-            print(seqname + '\t' + bamfile.getrname(read.tid) + '\t' + str(read.pos + 1) + '\t' + str(read.aend) + '\t' + direction + '\t' + str(read.mapq), file=hOUT)
-
+            print('\t'.join([seqname, bamfile.getrname(read.tid), str(read.pos + 1), str(read.aend), direction, str(read.mapq)]), file=hOUT)
 
     bamfile.close()
     hOUT.close()
-
 
 
 def makeImproperBedpe(inputFilePath, outputFilePath, junction_dist_margin, clipping_margin):
 
     ####################
     # sort according to the read ID for the later processing
-    hOUT = open(outputFilePath + ".tmp1", "w")
+    hOUT = open(f"{outputFilePath}.tmp1", "w")
     subprocess.call(["sort", "-k1", inputFilePath], stdout = hOUT)
     hOUT.close()
     ####################
@@ -676,8 +671,8 @@ def makeImproperBedpe(inputFilePath, outputFilePath, junction_dist_margin, clipp
 
     ####################
     # convert each improper read pair to bedpe records (with margins)
-    hIN = open(outputFilePath + ".tmp1", "r")
-    hOUT = open(outputFilePath + ".tmp2", "w")
+    hIN = open(f"{outputFilePath}.tmp1", "r")
+    hOUT = open(f"{outputFilePath}.tmp2", "w")
 
     tempID, tempPairNum, tempChr, tempStart, tempEnd, tempDir, tempMapQ = "", "", "", "", "", "", ""
 
@@ -689,7 +684,7 @@ def makeImproperBedpe(inputFilePath, outputFilePath, junction_dist_margin, clipp
 
         if F[0] == tempID and tempPairNum == "1" and pairNum == "2":
             
-            chr1, dir1, start1, end1, mapQ1, align1 = tempChr, tempDir, 0, 0, tempMapQ, tempChr + ":" + str(tempStart) + "-" + str(tempEnd) 
+            chr1, dir1, start1, end1, mapQ1, align1 = tempChr, tempDir, 0, 0, tempMapQ, f"{tempChr}:{str(tempStart)}-{str(tempEnd)}"
             if dir1 == "+":
                 start1 = tempEnd - clipping_margin
                 end1 = tempEnd + junction_dist_margin
@@ -697,7 +692,7 @@ def makeImproperBedpe(inputFilePath, outputFilePath, junction_dist_margin, clipp
                 start1 = tempStart - junction_dist_margin
                 end1 = tempStart + clipping_margin
 
-            chr2, dir2, start2, end2, mapQ2, align2 = F[1], F[4], 0, 0, F[5], F[1] + ":" + F[2] + "-" + F[3]
+            chr2, dir2, start2, end2, mapQ2, align2 = F[1], F[4], 0, 0, F[5], f"{F[1]}:{F[2]}-{F[3]}"
             if dir2 == "+":
                 start2 = int(F[3]) - clipping_margin
                 end2 = int(F[3]) + junction_dist_margin
@@ -706,14 +701,14 @@ def makeImproperBedpe(inputFilePath, outputFilePath, junction_dist_margin, clipp
                 end2 = int(F[2]) + clipping_margin
      
             if chr1 < chr2:
-                print('\t'.join([chr1, str(start1), str(end1), chr2, str(start2), str(end2), tempID, mapQ1 + "," + mapQ2, dir1, dir2, align1 + "," + align2]), file=hOUT)
+                print('\t'.join([chr1, str(start1), str(end1), chr2, str(start2), str(end2), tempID, f"{mapQ1},{mapQ2}", dir1, dir2, f"{align1},{align2}"]), file=hOUT)
             elif chr1 > chr2:
-                print('\t'.join([chr2, str(start2), str(end2), chr1, str(start1), str(end1), tempID, mapQ2 + "," + mapQ1, dir2, dir1, align2 + "," + align1]), file=hOUT)
+                print('\t'.join([chr2, str(start2), str(end2), chr1, str(start1), str(end1), tempID, f"{mapQ2},{mapQ1}", dir2, dir1, f"{align2},{align1}"]), file=hOUT)
             else:
                 if start1 <= start2:
-                    print('\t'.join([chr1, str(start1), str(end1), chr2, str(start2), str(end2), tempID, mapQ1 + "," + mapQ2, dir1, dir2, align1 + "," + align2]), file=hOUT)
+                    print('\t'.join([chr1, str(start1), str(end1), chr2, str(start2), str(end2), tempID, f"{mapQ1},{mapQ2}", dir1, dir2, f"{align1},{align2}"]), file=hOUT)
                 else:
-                    print('\t'.join([chr2, str(start2), str(end2), chr1, str(start1), str(end1), tempID, mapQ2 + "," + mapQ1, dir2, dir1, align2 + "," + align1]), file=hOUT)
+                    print('\t'.join([chr2, str(start2), str(end2), chr1, str(start1), str(end1), tempID, f"{mapQ2},{mapQ1}", dir2, dir1, f"{align2},{align1}"]), file=hOUT)
 
 
         tempID, tempPairNum, tempChr, tempStart, tempEnd, tempDir, tempMapQ = F[0], pairNum, F[1], int(F[2]), int(F[3]), F[4], F[5]
@@ -725,14 +720,14 @@ def makeImproperBedpe(inputFilePath, outputFilePath, junction_dist_margin, clipp
 
     ####################
     # sort according to the chromosome coordinates
-    utils.sortBedpe(outputFilePath + ".tmp2", outputFilePath)
+    utils.sortBedpe(f"{outputFilePath}.tmp2", outputFilePath)
     ####################
 
 
     ####################
     # delete intermediate file
-    subprocess.call(["rm", outputFilePath + '.tmp1'])
-    subprocess.call(["rm", outputFilePath + '.tmp2'])
+    subprocess.call(["rm", f'{outputFilePath}.tmp1'])
+    subprocess.call(["rm", f'{outputFilePath}.tmp2'])
     ####################
 
 
@@ -762,7 +757,7 @@ def clusterImproperBedpe(inputFilePath, outputFilePath, check_margin_size):
 
                 if len(talns_a_uniq) >= 1:
                     
-                    print('\t'.join([tchr1, tstart1, tend1, tchr2, tstart2, tend2, \
+                    print('\t'.join([tchr1, tstart1, tend1, tchr2, tstart2, tend2,
                                      tids, tmqs, tdir1, tdir2, talns]), file=hOUT)
                     delList.append(key)
                     continue
@@ -779,14 +774,14 @@ def clusterImproperBedpe(inputFilePath, outputFilePath, check_margin_size):
                         newEnd2 = str(min(int(tend2), int(F[5])))
 
                         newKey = '\t'.join([tchr1, newStart1, newEnd1, tchr2, newStart2, newEnd2, tdir1, tdir2])
-                        newIds = tids + ';' + F[6]
-                        newMqs = tmqs + ';' + F[7]
-                        newAlns = talns + ';' + F[10]
+                        newIds = f'{tids};{F[6]}'
+                        newMqs = f'{tmqs};{F[7]}'
+                        newAlns = f'{talns};{F[10]}'
         
                         if newKey != key:    
                             delList.append(key)
 
-                        mergedBedpe[newKey] = newIds + '\t' + newMqs + '\t' + newAlns
+                        mergedBedpe[newKey] = '\t'.join([newIds, newMqs, newAlns])
                         break
 
         for item in delList:
@@ -794,7 +789,7 @@ def clusterImproperBedpe(inputFilePath, outputFilePath, check_margin_size):
 
         if match == 0:
             newKey = '\t'.join([F[0], F[1], F[2], F[3], F[4], F[5], F[8], F[9]])
-            mergedBedpe[newKey] = F[6] + '\t' + F[7] + '\t' + F[10]
+            mergedBedpe[newKey] = '\t'.join([F[6], F[7], F[10]])
 
  
     for key in sorted(mergedBedpe):
@@ -807,7 +802,7 @@ def clusterImproperBedpe(inputFilePath, outputFilePath, check_margin_size):
 
         if len(talns_a_uniq) >= 1:
 
-            print('\t'.join([tchr1, tstart1, tend1, tchr2, tstart2, tend2, \
+            print('\t'.join([tchr1, tstart1, tend1, tchr2, tstart2, tend2,
                              tids, tmqs, tdir1, tdir2, talns]), file=hOUT)
 
 

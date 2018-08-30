@@ -60,11 +60,11 @@ def warningMessage(message):
 def get_seq(reference, chr, start, end):
 
     seq = ""
-    for item in pysam.faidx(reference, chr + ":" + str(start) + "-" + str(end)):
+    for item in pysam.faidx(reference, f"{chr}:{str(start)}-{str(end)}"):
         # if item[0] == ">": continue
         seq = seq + item.rstrip('\n')
     seq = seq.replace('>', '')
-    seq = seq.replace(chr + ":" + str(start) + "-" + str(end), '')
+    seq = seq.replace(f"{chr}:{str(start)}-{str(end)}", '')
 
     if re.search(r'[^ACGTUWSMKRYBDHVNacgtuwsmkrybdhvn]', seq) is not None:
         print("The return value in get_seq function includes non-nucleotide characters:", file=sys.stderr)
