@@ -53,7 +53,7 @@ def warningMessage(message):
 
     # logger = logging.getLogger('genomonSV_log')
     # logger.warning(message)
-    print >> sys.stderr, message
+    print(message, file=sys.stderr)
 
 
 def reverseComplement(seq):

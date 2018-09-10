@@ -9,7 +9,7 @@ def simplifyJunc(inputFilePath, outputFilePath, label):
         function for creating control junction information for filtering
     """
 
-    hIN = gzip.open(inputFilePath, 'r')
+    hIN = gzip.open(inputFilePath, 'rt')
     hOUT = open(outputFilePath, 'a')
     
     num = 1
@@ -21,7 +21,7 @@ def simplifyJunc(inputFilePath, outputFilePath, label):
 
         if F[7] != "---": inseqLen = len(F[7])
 
-        print >> hOUT, '\t'.join(F[0:6]) + '\t' + "junction_" + str(num)  + '\t' + str(inseqLen) + '\t' + F[8] + '\t' + F[9] + '\t' + label + '\t' + str(len(MQs))
+        print('\t'.join(F[0:6]) + '\t' + "junction_" + str(num)  + '\t' + str(inseqLen) + '\t' + F[8] + '\t' + F[9] + '\t' + label + '\t' + str(len(MQs)), file=hOUT)
         num = num + 1
 
     hIN.close()
@@ -52,13 +52,13 @@ def organizeControl(inputFilePath, outputFilePath, check_margin_size):
             tchr1, tstart1, tend1, tchr2, tstart2, tend2, tdir1, tdir2, inseqSize = key.split('\t')
             tsamples, treadNums = mergedBedpeInfo[key].split('\t')
 
-            if tend1 == "18606952": print key
+            if tend1 == "18606952": print(key)
 
             # the investigated key is sufficiently far from the current line in the input file and no additional line to merge is expected. therefore flush the key and information
             if F[0] != tchr1 or int(F[2]) > int(tend1) + check_margin_size:
 
                 # treatment for flush!!
-                print >> hOUT, '\t'.join([tchr1, tstart1, tend1, tchr2, tstart2, tend2, "controlJunction_" + str(num), inseqSize, tdir1, tdir2, tsamples, treadNums])
+                print('\t'.join([tchr1, tstart1, tend1, tchr2, tstart2, tend2, "controlJunction_" + str(num), inseqSize, tdir1, tdir2, tsamples, treadNums]), file=hOUT)
                 num = num + 1
 
                 delList.append(key)
@@ -114,7 +114,7 @@ def organizeControl(inputFilePath, outputFilePath, check_margin_size):
         tsamples, treadNums = mergedBedpeInfo[key].split('\t')
 
         # treatment for flush!!
-        print >> hOUT, '\t'.join([tchr1, tstart1, tend1, tchr2, tstart2, tend2, "controlJunction_" + str(num), inseqSize, tdir1, tdir2, tsamples, treadNums])
+        print('\t'.join([tchr1, tstart1, tend1, tchr2, tstart2, tend2, "controlJunction_" + str(num), inseqSize, tdir1, tdir2, tsamples, treadNums]), file=hOUT)
         num = num + 1
 
 
