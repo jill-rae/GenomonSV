@@ -5,7 +5,7 @@
 """
 
 import sys, pysam, re, subprocess, collections
-from . import utils
+from genomon_sv import utils
 
 def parseJunctionFromBam(inputBAM, outputFilePath, min_mapping_qual, abnormal_insert_size, min_major_clip_size, max_minor_clip_size):
 

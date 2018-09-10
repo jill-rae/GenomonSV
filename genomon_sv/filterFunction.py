@@ -5,9 +5,9 @@
 """
 
 import sys, gzip, subprocess, pysam, numpy, math, os, re
-from . import coveredRegions
-from . import realignmentFunction
-from . import utils
+from genomon_sv import coveredRegions
+from genomon_sv import realignmentFunction
+from genomon_sv import utils
 from scipy import stats
 
 def filterJuncNumAndSize(inputFilePath, outputFilePath, junc_num_thres, sv_size_thres, inversion_size_thres):

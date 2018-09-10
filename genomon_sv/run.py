@@ -3,11 +3,11 @@
 
 import sys, argparse, subprocess, os
 # import config 
-from . import utils
-from . import parseFunction
-from . import filterFunction
-from . import mergeFunction
-from . import annotationFunction
+from genomon_sv import utils
+from genomon_sv import parseFunction
+from genomon_sv import filterFunction
+from genomon_sv import mergeFunction
+from genomon_sv import annotationFunction
 
 def genomonSV_parse(args):
 

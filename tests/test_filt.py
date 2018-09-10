@@ -3,7 +3,7 @@
 import unittest
 import os, tempfile, shutil, filecmp
 import genomon_sv 
-from .check_download import *
+from tests.check_download import *
 
 class TestFilt(unittest.TestCase):
 

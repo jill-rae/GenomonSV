@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, pysam
-from . import utils
+from genomon_sv import utils
 
 def extractSVReadPairs(bamFilePath, outputFilePath, juncChr1, juncPos1, juncDir1, juncChr2, juncPos2, juncDir2, max_depth, search_length, search_margin):
 

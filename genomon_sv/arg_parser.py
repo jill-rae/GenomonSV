@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from .run import *
+from genomon_sv.run import *
 import argparse
 
 def create_parser():
